@@ -1,0 +1,27 @@
+{
+  "name": "regular_blacklist",
+  "version": "1.0.0",
+  "description": "",
+  "main": "command.js",
+  "dependencies": {
+    "webpack": "^4.43.0",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "devDependencies": {
+    "webpack-cli": "^3.3.11"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack  --config ./build/webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Secret-House/regular_blacklist.git"
+  },
+  "author": "another1024",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Secret-House/regular_blacklist/issues"
+  },
+  "homepage": "https://github.com/Secret-House/regular_blacklist#readme"
+}
