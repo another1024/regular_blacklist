@@ -1,4 +1,4 @@
-# tampermonkey_regular_black
+# regular_blacklist
 正则屏蔽脚本（开发中）
 ## 已完成
 正则删除标签做好了，根据网站屏蔽html标签。
