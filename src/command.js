@@ -19,9 +19,11 @@ class Command {
 			list.forEach((v, i)=> {
 				tableStr += `
 				<tr>
-				<td>${v.id}</td>
 				<td>${v.url}</td>
 				<td>${v.regular}</td>
+             	<td>
+                	<p>移除</p>
+              	</td>
 				</tr>
 				`;
 			});
@@ -30,9 +32,9 @@ class Command {
 				<table>
 				<thead>
 					<tr>
-						<th><b>ID</b></th>
 						<th><b>url</b></th>
 						<th><b>regular</b></th>
+						<th><b>delete</b></th>
 
 					</tr>
 				</thead>

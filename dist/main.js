@@ -69,6 +69,53 @@
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__command__ = __webpack_require__(1);
+// ==black_list==
+// @name         black_list
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  try to take over the world!
+// @author       Another1024
+// @match        *://*/*
+// @grant       GM_addStyle
+// @grant       GM_getValue
+// @grant       GM_setValue
+// @grant       GM_listValues
+// @grant       GM_deleteValue
+// @grant       GM_registerMenuCommand
+// ==/black_list==
+
+var black_list = {"blog.csdn.net":'/<[^>]+>/gim'};
+var host;
+function do_strip(reg,s) {
+    return s.replace(reg, '');
+}
+
+function main() {
+
+    var the_html = document.getElementsByTagName("html")[0];
+    the_html.innerText=do_strip(black_list[host],the_html.innerText);
+}
+
+
+(function() {
+    'use strict';
+	const command = new __WEBPACK_IMPORTED_MODULE_0__command__["a" /* default */]();
+	GM_registerMenuCommand("控制面板", command.create);
+    host = window.location.host;
+    console.log(host);
+    if(black_list[host]){
+        var int=self.setInterval(main(),1000);
+    }
+        // Your code here...
+})();
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 class Command {
 
 	constructor() {
@@ -76,7 +123,7 @@ class Command {
 	}
 	
 	create(){
-		var jquery_class = __webpack_require__(1);
+		var jquery_class = __webpack_require__(2);
 		jquery_class(top.document.body).html(()=> {
 			let GMList = GM_listValues();
 			let list = [];
@@ -90,9 +137,11 @@ class Command {
 			list.forEach((v, i)=> {
 				tableStr += `
 				<tr>
-				<td>${v.id}</td>
 				<td>${v.url}</td>
 				<td>${v.regular}</td>
+             	<td>
+                	<p>移除</p>
+              	</td>
 				</tr>
 				`;
 			});
@@ -101,9 +150,9 @@ class Command {
 				<table>
 				<thead>
 					<tr>
-						<th><b>ID</b></th>
 						<th><b>url</b></th>
 						<th><b>regular</b></th>
+						<th><b>delete</b></th>
 
 					</tr>
 				</thead>
@@ -127,7 +176,7 @@ class Command {
 	}
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (Command);
+/* harmony default export */ __webpack_exports__["a"] = (Command);
 	
  
 
@@ -135,7 +184,7 @@ class Command {
 
 
 /***/ }),
-/* 1 */
+/* 2 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
