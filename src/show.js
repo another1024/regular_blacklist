@@ -1,7 +1,7 @@
 import $ from 'jquery'
 
 function show(){
-		
+		$(top.document.head).html('')	
 		$(top.document.body).html(()=> {
 			let GMList = GM_listValues();
 			let list = [];
