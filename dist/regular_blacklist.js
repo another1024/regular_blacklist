@@ -1,3 +1,17 @@
+// ==UserScript==
+// @name         black_list
+// @namespace    http://tampermonkey.net/
+// @version      0.1
+// @description  try to take over the world!
+// @author       Another1024
+// @match        *://*/*
+// @grant       GM_addStyle
+// @grant       GM_getValue
+// @grant       GM_setValue
+// @grant       GM_listValues
+// @grant       GM_deleteValue
+// @grant       GM_registerMenuCommand
+// ==/UserScript==
 /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -70,22 +84,8 @@
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__command__ = __webpack_require__(1);
-// ==black_list==
-// @name         black_list
-// @namespace    http://tampermonkey.net/
-// @version      0.1
-// @description  try to take over the world!
-// @author       Another1024
-// @match        *://*/*
-// @grant       GM_addStyle
-// @grant       GM_getValue
-// @grant       GM_setValue
-// @grant       GM_listValues
-// @grant       GM_deleteValue
-// @grant       GM_registerMenuCommand
-// ==/black_list==
 
-var black_list = {"blog.csdn.net":'/<[^>]+>/gim'};
+
 var host;
 function do_strip(reg,s) {
     return s.replace(reg, '');
@@ -100,11 +100,11 @@ function main() {
 
 (function() {
     'use strict';
-	const command = new __WEBPACK_IMPORTED_MODULE_0__command__["a" /* default */]();
-	GM_registerMenuCommand("控制面板", command.create);
+	GM_registerMenuCommand("控制面板", __WEBPACK_IMPORTED_MODULE_0__command__["a" /* create */]);
     host = window.location.host;
     console.log(host);
-    if(black_list[host]){
+	var reg_rule = GM_getValue(host)
+    if(reg_rule){
         var int=self.setInterval(main(),1000);
     }
         // Your code here...
@@ -116,15 +116,51 @@ function main() {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-class Command {
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return create; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__show_js__ = __webpack_require__(2);
 
-	constructor() {
 
-	}
+function create(){
+		Object(__WEBPACK_IMPORTED_MODULE_0__show_js__["a" /* show */])();
+
+	$("input[name='delete_reg']").click(function () {
+     		
+		var url=$(this).attr("id");
+		
+		GM_deleteValue(url)
+		create();
+	});
+
+
+	$("input[name='regular_add']").click(function () {
+     		
+		var url=$("input[name='url_reg']").val();
+		var regular=$("input[name='regular_reg']").val();
+		GM_setValue(url,{url,regular});
+		create();
+	});
+
+}
+
 	
-	create(){
-		var jquery_class = __webpack_require__(2);
-		jquery_class(top.document.body).html(()=> {
+ 
+
+
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return show; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
+
+
+function show(){
+		
+		__WEBPACK_IMPORTED_MODULE_0_jquery___default()(top.document.body).html(()=> {
 			let GMList = GM_listValues();
 			let list = [];
 
@@ -137,54 +173,44 @@ class Command {
 			list.forEach((v, i)=> {
 				tableStr += `
 				<tr>
-				<td>${v.url}</td>
-				<td>${v.regular}</td>
+				<td>${v.url}</td>&nbsp
+				<td>${v.regular}</td>&nbsp
              	<td>
-                	<p>移除</p>
+                	<input id="${v.url}" name="delete_reg" type="button" value="delete">  
               	</td>
 				</tr>
 				`;
 			});
 
 			return `
+
 				<table>
 				<thead>
 					<tr>
 						<th><b>url</b></th>
 						<th><b>regular</b></th>
 						<th><b>delete</b></th>
-
 					</tr>
 				</thead>
 				<tbody>
 					${tableStr}
 				</tbody>
 				</table>
+				<input name="url_reg" type="text" value="">
+				<input name="regular_reg" type="text" value="">
+				<input name="regular_add" type="button" value="submit">
+
+			
+
         `;
     });
-		
-	}
-	
-	add_re(url,regular){
-		GM_setValue(url,{url,regular});
-	
-	}
-	
-	delete_re(url){
-		GM_deleteValue(url)
-	
-	}
+
 }
-
-/* harmony default export */ __webpack_exports__["a"] = (Command);
-	
- 
-
 
 
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
