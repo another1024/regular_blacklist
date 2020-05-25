@@ -74,143 +74,11 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ 	return __webpack_require__(__webpack_require__.s = 1);
 /******/ })
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__command__ = __webpack_require__(1);
-
-
-var host;
-function do_strip(reg,s) {
-    return s.replace(reg, '');
-}
-
-function main() {
-
-    var the_html = document.getElementsByTagName("html")[0];
-    the_html.innerText=do_strip(black_list[host],the_html.innerText);
-}
-
-
-(function() {
-    'use strict';
-	GM_registerMenuCommand("控制面板", __WEBPACK_IMPORTED_MODULE_0__command__["a" /* create */]);
-    host = window.location.host;
-    console.log(host);
-	var reg_rule = GM_getValue(host)
-    if(reg_rule){
-        var int=self.setInterval(main(),1000);
-    }
-        // Your code here...
-})();
-
-
-/***/ }),
-/* 1 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return create; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__show_js__ = __webpack_require__(2);
-
-
-function create(){
-		Object(__WEBPACK_IMPORTED_MODULE_0__show_js__["a" /* show */])();
-
-	$("input[name='delete_reg']").click(function () {
-     		
-		var url=$(this).attr("id");
-		
-		GM_deleteValue(url)
-		create();
-	});
-
-
-	$("input[name='regular_add']").click(function () {
-     		
-		var url=$("input[name='url_reg']").val();
-		var regular=$("input[name='regular_reg']").val();
-		GM_setValue(url,{url,regular});
-		create();
-	});
-
-}
-
-	
- 
-
-
-
-
-/***/ }),
-/* 2 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return show; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
-
-
-function show(){
-		
-		__WEBPACK_IMPORTED_MODULE_0_jquery___default()(top.document.body).html(()=> {
-			let GMList = GM_listValues();
-			let list = [];
-
-			for (let i = 0; i < GMList.length; i++) {
-				list[i] = GM_getValue(GMList[i]);
-			}
-
-			let tableStr = '';
-
-			list.forEach((v, i)=> {
-				tableStr += `
-				<tr>
-				<td>${v.url}</td>&nbsp
-				<td>${v.regular}</td>&nbsp
-             	<td>
-                	<input id="${v.url}" name="delete_reg" type="button" value="delete">  
-              	</td>
-				</tr>
-				`;
-			});
-
-			return `
-
-				<table>
-				<thead>
-					<tr>
-						<th><b>url</b></th>
-						<th><b>regular</b></th>
-						<th><b>delete</b></th>
-					</tr>
-				</thead>
-				<tbody>
-					${tableStr}
-				</tbody>
-				</table>
-				<input name="url_reg" type="text" value="">
-				<input name="regular_reg" type="text" value="">
-				<input name="regular_add" type="button" value="submit">
-
-			
-
-        `;
-    });
-
-}
-
-
-
-/***/ }),
-/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -11086,6 +10954,167 @@ if ( typeof noGlobal === "undefined" ) {
 
 return jQuery;
 } );
+
+
+/***/ }),
+/* 1 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__command__ = __webpack_require__(2);
+
+
+
+function main(reg_rule) {
+
+    var the_html = document.getElementsByTagName("html")[0];
+	reg_rule = "/"+reg_rule+"/g"
+    console.log(reg_rule);	
+	
+    the_html.innerHTML=the_html.innerHTML.replace(eval(reg_rule),'');
+}
+
+
+(function() {
+    'use strict';
+	GM_registerMenuCommand("控制面板", __WEBPACK_IMPORTED_MODULE_0__command__["a" /* create */]);
+    var host = window.location.host;
+    console.log(host);
+	var tmp = GM_getValue(host)
+	if(tmp){
+		var reg_rule = tmp.regular
+	    if(reg_rule){
+	        var int=self.setInterval(main(reg_rule),1000);
+	    }
+	}
+        // Your code here...
+})();
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return create; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__show_js__ = __webpack_require__(3);
+
+
+function html_decode(str)
+{
+    var s = "";
+    if (str.length == 0) return "";
+    s = str.replace(/&amp;/g, "&");
+    s = s.replace(/&lt;/g, "<");
+    s = s.replace(/&gt;/g, ">");
+    s = s.replace(/&nbsp;/g, " ");
+    s = s.replace(/&#39;/g, "\'");
+    s = s.replace(/&quot;/g, "\"");
+    s = s.replace(/<br\/>/g, "\n");
+    return s;
+}
+function create(){
+		Object(__WEBPACK_IMPORTED_MODULE_1__show_js__["a" /* show */])();
+
+	__WEBPACK_IMPORTED_MODULE_0_jquery___default()("input[name='delete_reg']").click(function () {
+     		
+		var url=__WEBPACK_IMPORTED_MODULE_0_jquery___default()(this).attr("id");
+		url=html_decode(url)
+		GM_deleteValue(url)
+		create();
+	});
+
+
+	__WEBPACK_IMPORTED_MODULE_0_jquery___default()("input[name='regular_add']").click(function () {
+     		
+		var url=__WEBPACK_IMPORTED_MODULE_0_jquery___default()("input[name='url_reg']").val();
+		var regular=__WEBPACK_IMPORTED_MODULE_0_jquery___default()("input[name='regular_reg']").val();
+		GM_setValue(url,{url,regular});
+		create();
+	});
+
+}
+
+	
+ 
+
+
+
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return show; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
+
+function html_encode(str)
+{
+    var s = "";
+    if (str.length == 0) return "";
+    s = str.replace(/&/g, "&amp;");
+    s = s.replace(/</g, "&lt;");
+    s = s.replace(/>/g, "&gt;");
+    s = s.replace(/ /g, "&nbsp;");
+    s = s.replace(/\'/g, "&#39;");
+    s = s.replace(/\"/g, "&quot;");
+    s = s.replace(/\n/g, "<br/>");
+    return s;
+}
+
+function show(){
+		__WEBPACK_IMPORTED_MODULE_0_jquery___default()(top.document.head).html('')	
+		__WEBPACK_IMPORTED_MODULE_0_jquery___default()(top.document.body).html(()=> {
+			let GMList = GM_listValues();
+			let list = [];
+
+			for (let i = 0; i < GMList.length; i++) {
+				list[i] = GM_getValue(GMList[i]);
+			}
+
+			let tableStr = '';
+
+			list.forEach((v, i)=> {
+				var url_put = html_encode(v.url)
+				var regular_put = html_encode(v.regular)
+				tableStr += `
+				<tr>
+				<td>${url_put}</td>
+				<td>${regular_put}</td>
+             	<td>
+                	<input id="${url_put}" name="delete_reg" type="button" value="delete">  
+              	</td>
+				</tr>
+				`;
+			});
+
+			return `
+				<table>
+				<thead>
+					<tr>
+						<th><b>url</b></th>
+						<th><b>regular</b></th>
+						<th><b>delete</b></th>
+					</tr>
+				</thead>
+				<tbody>
+					${tableStr}
+				</tbody>
+				</table>
+				<input name="url_reg" type="text" value="">
+				<input name="regular_reg" type="text" value="">
+				<input name="regular_add" type="button" value="submit">
+			
+        `;
+    });
+
+}
+
 
 
 /***/ })
